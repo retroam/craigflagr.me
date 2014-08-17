@@ -17,7 +17,7 @@ RETVALS = ['id', 'account_id', 'source', 'category', 'category_group', 'location
            'state', 'immortal', 'deleted', 'flagged_status']
 
 
-db = mdb.connect(user="root", host="localhost", db="InsightDB",
+db = mdb.connect(user="root", host="localhost", db="INSIGHTdb",
                  charset='utf8')
 client = threetaps.Threetaps(API_KEY)
 
