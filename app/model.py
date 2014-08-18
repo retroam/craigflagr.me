@@ -7,7 +7,7 @@ import re
 import pymysql as mdb
 
 
-PICKLE_FILE = 'app/data/craigslist_classifier.pickle'
+PICKLE_FILE = '../app/data/craigslist_classifier.pickle'
 f = open(PICKLE_FILE)
 classifier = pickle.load(f)
 
