@@ -37,29 +37,36 @@ def result_page():
     post, zipcode, post_id = read_url(url)
     score = flag_score(url)
     words = get_bag_words()
-    print words
     response = client.search.search(params={'source': 'CRAIG',
                                             'retvals': ','.join(RETVALS),
                                             'sort': 'timestamp',
                                             'external_id': post_id
                                             })
-    with db:
-        cur = db.cursor()
-        if 'postings' not in response or response['postings'] == []:
-            cur.execute(select_query_zip, zipcode)
-        else:
-            api_response = parse_post(response, DICT_FIELDS, LOC_FIELDS)
-            cur.execute(select_query_full.format(api_response[0]['zipcode'],
-                                                 api_response[0]['category'],
-                                                 api_response[0]['category_group']))
 
-        query_results = cur.fetchall()
+    if 'postings' not in response or response['postings'] == []:
+        query_results = client.search.search(params={'source': 'CRAIG',
+                                        'retvals': ','.join(RETVALS),
+                                        'sort': 'timestamp',
+                                        'zipcode': zipcode,
+                                        'rpp': 100,
+                                        })
+    else:
+        api_response = parse_post(response, DICT_FIELDS, LOC_FIELDS)
+        query_results = client.search.search(params={'source': 'CRAIG',
+                                        'retvals': ','.join(RETVALS),
+                                        'sort': 'timestamp',
+                                        'category': api_response[0]['category'],
+                                        'zipcode': api_response[0]['zipcode'],
+                                        'category_group': api_response[0]['category_group'],
+                                        'rpp': 100
+                                        })
+
 
     flag_results = []
-    for result in query_results:
-        flg_score = flag_score_post(result[2])
-        flag_results.append(dict(heading=result[0], flagged_status=result[1],
-                                 body=result[2], url=result[3],
+    for result in query_results['postings']:
+        flg_score = flag_score_post(result['body'])
+        flag_results.append(dict(heading=result['heading'],
+                                 body=result['body'], url=result['external_url'],
                                  flag_score=flg_score))
 
     flag_results_sorted = sorted(flag_results, key=lambda k: k['flag_score'])

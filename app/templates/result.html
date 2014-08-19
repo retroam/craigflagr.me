@@ -109,7 +109,7 @@
                     </thead>
 
                     <tbody>
-                    {% for result in flag_results %}
+                    {% for result in flag_results[0:5] %}
                         <tr class="pure-table-striped">
                             <td style="background-color: rgba(96, 141, 158, 0.63)">
                                 <a style="color: #6FBEF3" href="{{result['url']}}">
