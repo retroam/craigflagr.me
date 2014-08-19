@@ -143,17 +143,12 @@
                        $('#Flagimage').attr("src", "../static/img/common/thumbs_down.PNG")
 
                    }
-                   var words = ['ID','Flooring','fixtures.','Size:','Explore','superb','Dramatic','Buena',
-                       'residents.','allowed,','Neighborhood,','Oil','lakeside','-Renovated','possess',
-                       'lakefront','rural','-Pet','Sq.','Benjamin','Nostrand','-Hardwood','sleek','enter',
-                       '$200','believed','setting.','ADDRESS','gleaming','Shant','Davidian','discover',
-                        'guaranteed.','Heating','finishes.','River.','Everett','conveniences','Year',
-                        'animals.','Bruce','LINK','grocery,','exception','High-speed','Countertops','request',
-                       'beginning','info:','patio.'];
-                            for (var i = 0; i < words.length; i++){
-                                 $('#colortext').highlight(words[i]);
+                          var words = {{WORDS|safe}};
+                                for (var i = 0; i < words.length; i++){
+                                     $('#colortext').highlight(words[i], {caseSensitive: true,
+                                     wordsOnly: true});
 
-                            }
+                                }
 
 
     </script>

@@ -18,9 +18,15 @@ def get_post_words(post, stopwords=[]):
 
 
 def get_bag_words():
-    word_bag = classifier.most_informative_features(5000)
-    words = [word[0] for word in word_bag]
-    return words
+    words = []
+    cpdist = classifier._feature_probdist
+    for (fname, fval) in classifier.most_informative_features(10000):
+        prob = cpdist['flag', fname].prob(fval)/cpdist['no_flag', fname].prob(fval)
+        if prob > 2 and len(fname) > 2:
+            words.append(fname)
+    words_encode = [word.encode('utf-8') for word in words]
+    return words_encode
+
 
 def feature_extractor(post, list_words=[], stop_words=[]):
     features = defaultdict(list)

@@ -5,6 +5,7 @@ from sql_statements import select_query_zip, select_query_full
 import threetaps
 
 
+
 API_KEY = '082906284971364c1cb52da644536e37'
 DICT_FIELDS = ['id', 'source', 'category', 'category_group', 'location',
                'external_url', 'heading', 'body',
@@ -36,6 +37,7 @@ def result_page():
     post, zipcode, post_id = read_url(url)
     score = flag_score(url)
     words = get_bag_words()
+    print words
     response = client.search.search(params={'source': 'CRAIG',
                                             'retvals': ','.join(RETVALS),
                                             'sort': 'timestamp',
