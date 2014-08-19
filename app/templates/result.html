@@ -62,8 +62,8 @@
 
 <div class="splash-container">
     <div class="splash">
-        <h1 class="splash-head" id="Flag">{{score  + '/100'}}</h1>
-        <p class="splash-subhead">
+        <h1 class="splash-head" style="color: white" id="Flag">{{score  + '/100'}}</h1>
+        <p id="Flagscore" class="splash-subhead">
             FlagScore
         </p>
         <p clash="splash-subhead">
@@ -141,6 +141,8 @@
                    }
                   else{
                        $('#Flagimage').attr("src", "../static/img/common/thumbs_down.PNG")
+                       $('#Flag').attr("style","color : rgba(231, 12, 12, 0.79)");
+
 
                    }
                           var words = {{WORDS|safe}};

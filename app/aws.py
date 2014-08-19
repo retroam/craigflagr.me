@@ -42,34 +42,34 @@ def result_page():
                                             'sort': 'timestamp',
                                             'external_id': post_id
                                             })
+    api_response = parse_post(response, DICT_FIELDS, LOC_FIELDS)
 
     if 'postings' not in response or response['postings'] == []:
         query_results = client.search.search(params={'source': 'CRAIG',
                                         'retvals': ','.join(RETVALS),
                                         'sort': 'timestamp',
-                                        'zipcode': zipcode,
+                                        'location.zipcode': zipcode,
                                         'rpp': 100,
                                         })
     else:
-        api_response = parse_post(response, DICT_FIELDS, LOC_FIELDS)
         query_results = client.search.search(params={'source': 'CRAIG',
                                         'retvals': ','.join(RETVALS),
                                         'sort': 'timestamp',
                                         'category': api_response[0]['category'],
-                                        'zipcode': api_response[0]['zipcode'],
+                                        'location.zipcode': api_response[0]['zipcode'],
                                         'category_group': api_response[0]['category_group'],
-                                        'rpp': 100
+                                        'rpp': 25
                                         })
-
 
     flag_results = []
     for result in query_results['postings']:
-        flg_score = flag_score_post(result['body'])
-        flag_results.append(dict(heading=result['heading'],
-                                 body=result['body'], url=result['external_url'],
-                                 flag_score=flg_score))
+        if result['category_group'] == api_response[0]['category_group']:
+            flg_score = flag_score_post(result['body'])
+            flag_results.append(dict(heading=result['heading'],
+                                     body=result['body'], url=result['external_url'],
+                                     flag_score=flg_score))
 
-    flag_results_sorted = sorted(flag_results, key=lambda k: k['flag_score'])
+        flag_results_sorted = sorted(flag_results, key=lambda k: k['flag_score'])
     return render_template('result.html', flag_results=flag_results_sorted, post=post,
                            score=str(score), WORDS=words)
 
