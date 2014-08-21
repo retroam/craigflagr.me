@@ -67,11 +67,10 @@ def result_page():
                                  body=result[2], url=result[3],
                                  flag_score=flg_score))
 
-    flag_results = [dict(heading=result['heading'],
-                                     body=result['body'], url=result['external_url'],
-                                     flag_score=flag_score_post(result['body']))
-                    for result in query_results['postings']
-                    if result['category_group'] == api_response[0]['category_group']]
+    flag_results = [dict(heading=result[0],
+                                     body=result[2], url=result[3],
+                                     flag_score=flag_score_post(result[2]))
+                    for result in query_results]
 
     flag_results_sorted = sorted(flag_results, key=lambda k: k['flag_score'])
     return render_template('result.html', flag_results=flag_results_sorted, post=post,
