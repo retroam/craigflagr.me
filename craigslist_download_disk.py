@@ -31,6 +31,7 @@ for i in range(number_files):
                                             'retvals': ','.join(RETVALS),
                                             'sort': 'timestamp',
                                             'status': 'for_rent',
+                                            'category_group': 'RRRR',
                                             'anchor': str(ANCHOR),
                                             'rpp': 100,
                                             'page': page})
