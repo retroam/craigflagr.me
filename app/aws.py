@@ -30,6 +30,10 @@ app = Flask(__name__)
 def index():
     return render_template("home.html")
 
+@app.route('/about')
+def about():
+    return render_template("about.html")
+
 # TODO Error pages for listings without MAPS
 @app.route("/result")
 def result_page():
@@ -61,15 +65,13 @@ def result_page():
                                         'rpp': 25
                                         })
 
-    flag_results = []
-    for result in query_results['postings']:
-        if result['category_group'] == api_response[0]['category_group']:
-            flg_score = flag_score_post(result['body'])
-            flag_results.append(dict(heading=result['heading'],
+    flag_results = [dict(heading=result['heading'],
                                      body=result['body'], url=result['external_url'],
-                                     flag_score=flg_score))
+                                     flag_score=flag_score_post(result['body']))
+                    for result in query_results['postings']
+                    if result['category_group'] == api_response[0]['category_group']]
 
-        flag_results_sorted = sorted(flag_results, key=lambda k: k['flag_score'])
+    flag_results_sorted = sorted(flag_results, key=lambda k: k['flag_score'])
     return render_template('result.html', flag_results=flag_results_sorted, post=post,
                            score=str(score), WORDS=words)
 
