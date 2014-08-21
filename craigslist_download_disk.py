@@ -12,7 +12,7 @@ RETVALS = ['id', 'account_id', 'source', 'category', 'category_group', 'location
            'expires', 'language', 'price', 'currency', 'images', 'annotations', 'status',
            'state', 'immortal', 'deleted', 'flagged_status']
 
-FILE_PATH = '/data_dump'
+FILE_PATH = '/home/ubuntu/data_dump'
 
 number_files = 10000
 

@@ -5,7 +5,7 @@ import requests
 from BeautifulSoup import BeautifulSoup
 
 
-FILE_PATH = '/data_dump'
+FILE_PATH = '/home/ubuntu/data_dump'
 INITIALIZE = True
 drop_table_sql = '''
                    DROP TABLE IF EXISTS Recommendations
