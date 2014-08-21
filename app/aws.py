@@ -48,22 +48,24 @@ def result_page():
                                             })
     api_response = parse_post(response, DICT_FIELDS, LOC_FIELDS)
 
-    if 'postings' not in response or response['postings'] == []:
-        query_results = client.search.search(params={'source': 'CRAIG',
-                                        'retvals': ','.join(RETVALS),
-                                        'sort': 'timestamp',
-                                        'location.zipcode': zipcode,
-                                        'rpp': 100,
-                                        })
-    else:
-        query_results = client.search.search(params={'source': 'CRAIG',
-                                        'retvals': ','.join(RETVALS),
-                                        'sort': 'timestamp',
-                                        'category': api_response[0]['category'],
-                                        'location.zipcode': api_response[0]['zipcode'],
-                                        'category_group': api_response[0]['category_group'],
-                                        'rpp': 25
-                                        })
+    with db:
+        cur = db.cursor()
+        if 'postings' not in response or response['postings'] == []:
+            cur.execute(select_query_zip, zipcode)
+        else:
+            api_response = parse_post(response, DICT_FIELDS, LOC_FIELDS)
+            cur.execute(select_query_full.format(api_response[0]['zipcode'],
+                                                 api_response[0]['category'],
+                                                 api_response[0]['category_group']))
+
+        query_results = cur.fetchall()
+
+    flag_results = []
+    for result in query_results:
+        flg_score = flag_score_post(result[2])
+        flag_results.append(dict(heading=result[0], flagged_status=result[1],
+                                 body=result[2], url=result[3],
+                                 flag_score=flg_score))
 
     flag_results = [dict(heading=result['heading'],
                                      body=result['body'], url=result['external_url'],

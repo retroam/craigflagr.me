@@ -123,7 +123,7 @@ if INITIALIZE:
 
 with con:
     cur = con.cursor()
-    for file in files[100:]:
+    for file in files:
         try:
             with open(FILE_PATH + '/' + file) as f:
                 print FILE_PATH + '/' + file
