@@ -5,6 +5,7 @@ from collections import defaultdict
 from gmaps import Geocoding
 import re
 import pymysql as mdb
+from math import ceil
 
 
 PICKLE_FILE = '../app/data/craigslist_classifier.pickle'
@@ -85,13 +86,13 @@ def read_url(url):
 def flag_score(url):
     post, _, _ = read_url(url)
     result = classifier.prob_classify(feature_extractor(post))
-    score = round(result.prob('flag'), 2)*100
+    score = int(ceil(result.prob('flag')*100))
     return score
 
 
 def flag_score_post(post):
     result = classifier.prob_classify(feature_extractor(post))
-    score = round(result.prob('flag'), 2)*100
+    score = int(ceil(result.prob('flag')*100))
     return score
 
 
