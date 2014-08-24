@@ -45,17 +45,16 @@ def result_page():
                                             'external_id': post_id
                                             })
     api_response = parse_post(response, DICT_FIELDS, LOC_FIELDS)
-    price_range = str(api_response[0]['price'] - 500) + '..' + \
-                  str(api_response[0]['price'] + 500)
     if 'postings' not in response or response['postings'] == []:
         query_results = client.search.search(params={'source': 'CRAIG',
                                         'retvals': ','.join(RETVALS),
                                         'sort': 'timestamp',
                                         'location.zipcode': zipcode,
-                                        'price': price_range,
                                         'rpp': 100,
                                                      })
     else:
+        price_range = str(api_response[0]['price'] - 500) + '..' + \
+                  str(api_response[0]['price'] + 500)
         query_results = client.search.search(params={'source': 'CRAIG',
                                         'retvals': ','.join(RETVALS),
                                         'sort': 'timestamp',
