@@ -85,5 +85,9 @@ def url_not_found(error):
 def post_not_found(error):
     return render_template('error.html', message="Check Craigslist post")
 
+@app.errorhandler(500)
+def post_not_found(error):
+    return render_template('error.html', message="Server error")
+
 if __name__ == "__main__":
     app.run('0.0.0.0', port=5000, debug=True)
