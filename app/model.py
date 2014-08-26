@@ -122,3 +122,4 @@ def parse_post(data, dict_fields, location_fields):
         parsed_posts.append(my_dict)
 
     return parsed_posts
+

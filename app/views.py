@@ -64,3 +64,17 @@ def result_page():
     return render_template('result.html', flag_results=flag_results_sorted, post=post,
                            score=str(score), WORDS=words)
 
+@app.errorhandler(InvalidUsage)
+def handle_invalid_usage(error):
+    response = error.to_dict()
+    message = response.get('message', '')
+    return render_template('error.html', message = message)
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('error.html', message = "Page Not Found (404).")
+
+@app.errorhandler(500)
+def internal_error(error):
+    return render_template('error.html', message = "An unexpected error has occurred (500).")
+

@@ -3,7 +3,7 @@ import pymysql as mdb
 from model import read_url, flag_score, flag_score_post, parse_post, get_bag_words
 from sql_statements import select_query_zip, select_query_full
 import threetaps
-
+from requests.exceptions import *
 
 
 API_KEY = '082906284971364c1cb52da644536e37'
@@ -73,6 +73,17 @@ def result_page():
     flag_results_sorted = sorted(flag_results, key=lambda k: k['flag_score'])
     return render_template('result.html', flag_results=flag_results_sorted, post=post,
                            score=str(score), WORDS=words)
+@app.errorhandler(404)
+def page_not_found():
+    return render_template('error.html', message="Page not found")
+
+@app.errorhandler(MissingSchema)
+def url_not_found(error):
+    return render_template('error.html', message="No URL entered")
+
+@app.errorhandler(IndexError)
+def post_not_found(error):
+    return render_template('error.html', message="Check Craigslist post")
 
 if __name__ == "__main__":
     app.run('0.0.0.0', port=5000, debug=True)
