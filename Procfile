@@ -1,0 +1,1 @@
+web: gunicorn aws:app --log-file=-
