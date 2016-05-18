@@ -9,4 +9,5 @@ brewer2mpl==1.4
 python-gmaps==0.1.1
 requests==2.3.0
 threetaps==0.2.0
+nltk==3.2.1
 wsgiref==0.1.2
