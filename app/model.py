@@ -8,7 +8,7 @@ import pymysql as mdb
 from math import ceil
 
 
-PICKLE_FILE = '../app/data/craigslist_classifier.pickle'
+PICKLE_FILE = '/home/ubuntu/workspace/craigflagr.me/app/data/craigslist_classifier.pickle'
 f = open(PICKLE_FILE)
 classifier = pickle.load(f)
 
