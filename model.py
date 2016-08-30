@@ -10,9 +10,9 @@ import os
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
-PICKLE_FILE = dir_path + '/data/craigslist_classifier.pickle'
-f = open(PICKLE_FILE)
-classifier = pickle.load(f)
+# PICKLE_FILE = dir_path + '/data/craigslist_classifier.pickle'
+# f = open(PICKLE_FILE)
+classifier = {};
 
 
 def get_post_words(post, stopwords=[]):
