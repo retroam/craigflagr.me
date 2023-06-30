@@ -9,3 +9,4 @@ brewer2mpl
 python-gmaps
 requests
 nltk
+gunicorn
